@@ -17,4 +17,11 @@ public class RankingId {
     @ManyToOne
     @JoinColumn(name = "member_num")
     private Member member;
+    public RankingId(Competition competition, Member member) {
+        this.competition = competition;
+        this.member = member;
+    }
+    public RankingId()
+    {
+    }
 }

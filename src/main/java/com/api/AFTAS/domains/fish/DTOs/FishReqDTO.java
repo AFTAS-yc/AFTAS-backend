@@ -13,7 +13,7 @@ public class FishReqDTO {
 
     @NotNull(message = "Average weight cannot be null")
     @Min(value = 0, message = "Average weight must be greater than or equal to 0")
-    private Double averageWeight;
+    private Double averageWeigth;
 
     @NotNull(message = "Level ID cannot be null")
     @Positive(message = "Level ID must be a positive integer")

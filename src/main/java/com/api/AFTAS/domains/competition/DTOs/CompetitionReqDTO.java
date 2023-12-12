@@ -1,5 +1,6 @@
 package com.api.AFTAS.domains.competition.DTOs;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -18,10 +19,12 @@ public class CompetitionReqDTO {
 
     @NotNull(message = "Start time cannot be null")
     @FutureOrPresent(message = "Start time must be in the present or future")
+    @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime startTime;
 
     @NotNull(message = "End time cannot be null")
     @FutureOrPresent(message = "End time must be in the present or future")
+    @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime endTime;
 
     @NotNull(message = "Number of participants cannot be null")

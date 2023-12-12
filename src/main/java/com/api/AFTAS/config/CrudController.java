@@ -16,20 +16,20 @@ public abstract class CrudController<DTOReq,DTOResp,Id,Service extends CrudInter
 
     @PostMapping
     public ResponseEntity<DTOResp> create(@Valid @RequestBody DTOReq dtoReq) {
-        DTOResp level = service.create(dtoReq);
-        if(level != null)
+        DTOResp dtoResp = service.create(dtoReq);
+        if(dtoResp != null)
         {
-            return ResponseEntity.ok().body(level);
+            return ResponseEntity.ok().body(dtoResp);
         }
         return ResponseEntity.badRequest().body(null);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<DTOResp> update(@Valid @RequestBody DTOReq dtoReq,@PathVariable Id id) {
-        DTOResp level1 = service.update(dtoReq,id);
-        if(level1 != null)
+        DTOResp dtoResp = service.update(dtoReq,id);
+        if(dtoResp != null)
         {
-            return ResponseEntity.ok().body(level1);
+            return ResponseEntity.ok().body(dtoResp);
         }
         return ResponseEntity.badRequest().body(null);
     }
