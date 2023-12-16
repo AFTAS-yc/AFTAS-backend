@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @Validated
-@RequestMapping("competetion")
+@RequestMapping("competition")
 public class CompetitionController extends CrudController<CompetitionReqDTO, CompetitionRespDTO,String,CompetitionServiceInterface> {
     @GetMapping("all")
     public ResponseEntity<Page<CompetitionRespDTO>> getAll(Pageable pageable) {

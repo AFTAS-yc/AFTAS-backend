@@ -38,6 +38,9 @@ public class RankingService implements RankingServiceInterface {
 
     Optional<Member> member;
     Optional<Competition> competition;
+    List<Ranking> rankings;
+    Member member1 = new Member();
+    Competition competition1= new Competition();
     RankingId rankingId =new RankingId();
 
     @Override
@@ -47,10 +50,9 @@ public class RankingService implements RankingServiceInterface {
         competition = competitionRepository.findById(rankingReqDTO.getId().getCompetition_code());
 
         if (member.isPresent() && competition.isPresent()) {
-
             long daysDifference = ChronoUnit.DAYS.between(LocalDate.now(),competition.get().getDate());
-
-            if (daysDifference > 1) {
+            rankings = rankingRepository.getAllByCompetition(competition.get().getCode());
+            if (daysDifference > 1 && competition.get().getNumberOfParticipants() >= rankings.size()+1) {
                 rankingId.setCompetition(competition.get());
                 rankingId.setMember(member.get());
                 rankingE.setId(rankingId);
@@ -82,7 +84,9 @@ public class RankingService implements RankingServiceInterface {
 
     @Override
     public Integer delete(RankingIdReqDTO rankingIdReqDTO) {
-        Optional<Ranking> ranking = rankingRepository.findById(modelMapper.map(rankingIdReqDTO,RankingId.class));
+        competition1.setCode(rankingIdReqDTO.getCompetition_code());
+        member1.setNum(rankingIdReqDTO.getMember_num());
+        Optional<Ranking> ranking = rankingRepository.findById_CompetitionAndId_Member(competition1,member1);
         if(ranking.isPresent()) {
             rankingRepository.delete(ranking.get());
             return 1;
@@ -99,7 +103,9 @@ public class RankingService implements RankingServiceInterface {
 
     @Override
     public RankingRespDTO getOne(RankingIdReqDTO rankingIdReqDTO) {
-        Optional<Ranking> ranking = rankingRepository.findById(modelMapper.map(rankingIdReqDTO,RankingId.class));
+        competition1.setCode(rankingIdReqDTO.getCompetition_code());
+        member1.setNum(rankingIdReqDTO.getMember_num());
+        Optional<Ranking> ranking = rankingRepository.findById_CompetitionAndId_Member(competition1,member1);
         return ranking.map(value -> modelMapper.map(value, RankingRespDTO.class)).orElse(null);
     }
     @Override

@@ -98,4 +98,16 @@ public class HuntingService implements HuntingServiceInterface {
         Optional<Hunting> hunting = huntingRepository.findById(id);
         return hunting.map(value -> modelMapper.map(value, HuntingRespDTO.class)).orElse(null);
     }
+
+    public List<HuntingRespDTO> getAllByCompetition(String code) {
+        competition = competitionRepository.findById(code);
+        if(competition.isPresent()){
+            List<Hunting> huntings = huntingRepository.findAllByCompetition(competition.get());
+        return huntings
+                .stream()
+                    .map(hunting -> modelMapper.map(hunting, HuntingRespDTO.class))
+                    .collect(Collectors.toList());
+        }
+        return null;
+    }
 }

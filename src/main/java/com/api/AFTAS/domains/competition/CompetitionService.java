@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -55,13 +57,43 @@ public class CompetitionService implements CompetitionServiceInterface{
 
     public Page<CompetitionRespDTO> getAllWithPagination(Pageable pageable) {
         Page<Competition> competitions = competitionRepository.findAll(pageable);
-        return competitions
-                .map(competition -> modelMapper.map(competition,CompetitionRespDTO.class));
+        Page<CompetitionRespDTO> competitionRespDTOS= competitions
+                .map(competition -> modelMapper.map(competition, CompetitionRespDTO.class));
+        competitionRespDTOS.getContent().forEach(competitionRespDTO -> {
+            int result = competitionRespDTO.getDate().compareTo(LocalDate.now());
+            long daysDifference = ChronoUnit.DAYS.between(LocalDate.now(),competitionRespDTO.getDate());
+            if (result < 0) {
+                competitionRespDTO.setEtat("close");
+            } else if (result > 0) {
+                if(daysDifference == 1){
+                    competitionRespDTO.setEtat("one day remaining");
+                }
+                competitionRespDTO.setEtat("waiting");
+            } else {
+                competitionRespDTO.setEtat("Pending ...");
+            }
+        });
+        return competitionRespDTOS;
     }
 
     @Override
     public CompetitionRespDTO getOne(String code) {
         Optional<Competition> competition = competitionRepository.findById(code);
-        return competition.map(value -> modelMapper.map(value, CompetitionRespDTO.class)).orElse(null);
+        CompetitionRespDTO competitionRespDTO = competition.map(value -> modelMapper.map(value, CompetitionRespDTO.class)).orElse(null);;
+        assert competitionRespDTO != null;
+
+        int result = competitionRespDTO.getDate().compareTo(LocalDate.now());
+        long daysDifference = ChronoUnit.DAYS.between(LocalDate.now(),competitionRespDTO.getDate());
+        if (result < 0) {
+            competitionRespDTO.setEtat("close");
+        } else if (result > 0) {
+            if(daysDifference == 1){
+                competitionRespDTO.setEtat("one day remaining");
+            }
+            competitionRespDTO.setEtat("waiting");
+        } else {
+            competitionRespDTO.setEtat("Pending");
+        }
+        return competitionRespDTO;
     }
 }

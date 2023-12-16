@@ -18,13 +18,11 @@ public class CompetitionReqDTO {
     private LocalDate date;
 
     @NotNull(message = "Start time cannot be null")
-    @FutureOrPresent(message = "Start time must be in the present or future")
-    @JsonFormat(pattern = "HH:mm:ss")
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime startTime;
 
     @NotNull(message = "End time cannot be null")
-    @FutureOrPresent(message = "End time must be in the present or future")
-    @JsonFormat(pattern = "HH:mm:ss")
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime endTime;
 
     @NotNull(message = "Number of participants cannot be null")

@@ -9,7 +9,6 @@ public class MemberReqDTO {
     private Integer num;
     private String name;
     private String familtyName;
-    private LocalDate AccessionDate;
     private String nationality;
     private IdentityDocumentType identityDocument;
     private String identityNumber;

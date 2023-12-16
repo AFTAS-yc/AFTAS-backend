@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ public class MemberService implements MemberServiceInterface {
     @Override
     public MemberRespDTO create(MemberReqDTO memberReqDTO) {
         Member member = modelMapper.map(memberReqDTO, Member.class);
+        member.setAccessionDate(LocalDate.now());
             member = memberRepository.save(member);
             return modelMapper.map(member, MemberRespDTO.class);
     }

@@ -11,5 +11,5 @@ public class HuntingRespDTO {
     private Integer numberOfFish;
     private FishReqDTO fish;
     private MemberReqDTO member;
-    private CompetitionReqDTO competition;
+//    private CompetitionReqDTO competition;
 }

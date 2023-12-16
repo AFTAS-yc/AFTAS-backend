@@ -20,7 +20,7 @@ public class RankingController {
     RankingIdReqDTO rankingIdReqDTO = new RankingIdReqDTO();
 
     @PostMapping
-    public ResponseEntity<RankingRespDTO> create(@Valid @RequestBody RankingReqDTO rankingReqDTO) {
+    public ResponseEntity<RankingRespDTO> create(@RequestBody RankingReqDTO rankingReqDTO) {
         RankingRespDTO ranking = rankingService.create(rankingReqDTO);
         if(ranking != null)
         {
