@@ -6,8 +6,9 @@ import com.api.AFTAS.domains.fish.Fish;
 import com.api.AFTAS.domains.fish.FishRepository;
 import com.api.AFTAS.domains.hunting.DTOs.HuntingReqDTO;
 import com.api.AFTAS.domains.hunting.DTOs.HuntingRespDTO;
-import com.api.AFTAS.domains.member.Member;
-import com.api.AFTAS.domains.member.MemberRepository;
+import com.api.AFTAS.security.User.User;
+import com.api.AFTAS.security.User.UserRepository;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,20 +18,16 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class HuntingService implements HuntingServiceInterface {
-    @Autowired
-    private HuntingRepository huntingRepository;
-    @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
-    FishRepository fishRepository;
-    @Autowired
-    MemberRepository memberRepository;
-    @Autowired
-    CompetitionRepository competitionRepository;
-    Optional<Fish> fish;
-    Optional<Member> member;
-    Optional<Competition> competition;
+    private final HuntingRepository huntingRepository;
+    private final ModelMapper modelMapper;
+    private final FishRepository fishRepository;
+    private final UserRepository memberRepository;
+    private final CompetitionRepository competitionRepository;
+    private Optional<Fish> fish;
+    private Optional<User> member;
+    private Optional<Competition> competition;
 
     @Override
     public HuntingRespDTO create(HuntingReqDTO huntingReq) {

@@ -19,4 +19,9 @@ public class CompetitionController extends CrudController<CompetitionReqDTO, Com
     public ResponseEntity<Page<CompetitionRespDTO>> getAll(Pageable pageable) {
         return ResponseEntity.ok().body(this.service.getAllWithPagination(pageable));
     }
+
+    @GetMapping("/etat/{etat}")
+    public ResponseEntity<Page<CompetitionRespDTO>> getAllwidthEtat(@PathVariable Etat etat,Pageable pageable) {
+        return ResponseEntity.ok().body(this.service.getAllWithPaginationByEtat(pageable , etat));
+    }
 }

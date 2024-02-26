@@ -23,6 +23,7 @@ public class Competition {
     private Integer numberOfParticipants;
     private String location;
     private Double amount;
+    private Etat etat;
     @OneToMany(mappedBy = "competition")
     private List<Hunting> huntings = new ArrayList<>();
     @OneToMany(mappedBy = "id.competition")

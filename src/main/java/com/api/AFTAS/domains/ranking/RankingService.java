@@ -2,21 +2,18 @@ package com.api.AFTAS.domains.ranking;
 
 import com.api.AFTAS.domains.competition.Competition;
 import com.api.AFTAS.domains.competition.CompetitionRepository;
-import com.api.AFTAS.domains.hunting.Hunting;
 import com.api.AFTAS.domains.hunting.HuntingRepository;
-import com.api.AFTAS.domains.member.Member;
-import com.api.AFTAS.domains.member.MemberRepository;
 import com.api.AFTAS.domains.ranking.DTOs.RankingIdReqDTO;
 import com.api.AFTAS.domains.ranking.DTOs.RankingReqDTO;
 import com.api.AFTAS.domains.ranking.DTOs.RankingRespDTO;
-import jakarta.persistence.EntityNotFoundException;
+import com.api.AFTAS.security.User.User;
+import com.api.AFTAS.security.User.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,17 +26,17 @@ public class RankingService implements RankingServiceInterface {
     @Autowired
     private RankingRepository rankingRepository;
     @Autowired
-    private MemberRepository memberRepository;
+    private UserRepository memberRepository;
     @Autowired
 
     private CompetitionRepository competitionRepository;
     @Autowired
     private HuntingRepository huntingRepository;
 
-    Optional<Member> member;
+    Optional<User> member;
     Optional<Competition> competition;
     List<Ranking> rankings;
-    Member member1 = new Member();
+    User member1 = new User();
     Competition competition1= new Competition();
     RankingId rankingId =new RankingId();
 
@@ -85,7 +82,7 @@ public class RankingService implements RankingServiceInterface {
     @Override
     public Integer delete(RankingIdReqDTO rankingIdReqDTO) {
         competition1.setCode(rankingIdReqDTO.getCompetition_code());
-        member1.setNum(rankingIdReqDTO.getMember_num());
+        member1.setId(rankingIdReqDTO.getMember_num());
         Optional<Ranking> ranking = rankingRepository.findById_CompetitionAndId_Member(competition1,member1);
         if(ranking.isPresent()) {
             rankingRepository.delete(ranking.get());
@@ -104,7 +101,7 @@ public class RankingService implements RankingServiceInterface {
     @Override
     public RankingRespDTO getOne(RankingIdReqDTO rankingIdReqDTO) {
         competition1.setCode(rankingIdReqDTO.getCompetition_code());
-        member1.setNum(rankingIdReqDTO.getMember_num());
+        member1.setId(rankingIdReqDTO.getMember_num());
         Optional<Ranking> ranking = rankingRepository.findById_CompetitionAndId_Member(competition1,member1);
         return ranking.map(value -> modelMapper.map(value, RankingRespDTO.class)).orElse(null);
     }

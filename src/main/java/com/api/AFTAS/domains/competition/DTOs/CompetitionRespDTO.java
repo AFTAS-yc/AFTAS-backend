@@ -1,5 +1,6 @@
 package com.api.AFTAS.domains.competition.DTOs;
 
+import com.api.AFTAS.domains.competition.Etat;
 import com.api.AFTAS.domains.hunting.DTOs.HuntingRespDTO;
 import com.api.AFTAS.domains.ranking.DTOs.RankingRespDTO;
 import com.api.AFTAS.domains.ranking.DTOs.RankingRespDTOForCompetition;
@@ -19,7 +20,7 @@ public class CompetitionRespDTO {
     private Integer numberOfParticipants;
     private String location;
     private Double amount;
-    private String etat;
+    private Etat etat;
     private List<RankingRespDTOForCompetition> rankings;
     private List<HuntingRespDTO> huntings;
 }

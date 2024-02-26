@@ -1,7 +1,7 @@
 package com.api.AFTAS.domains.ranking;
 
 import com.api.AFTAS.domains.competition.Competition;
-import com.api.AFTAS.domains.member.Member;
+import com.api.AFTAS.security.User.User;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -16,8 +16,8 @@ public class RankingId {
 
     @ManyToOne
     @JoinColumn(name = "member_num")
-    private Member member;
-    public RankingId(Competition competition, Member member) {
+    private User member;
+    public RankingId(Competition competition, User member) {
         this.competition = competition;
         this.member = member;
     }

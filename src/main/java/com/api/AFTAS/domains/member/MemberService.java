@@ -3,6 +3,9 @@ package com.api.AFTAS.domains.member;
 
 import com.api.AFTAS.domains.member.DTOs.MemberReqDTO;
 import com.api.AFTAS.domains.member.DTOs.MemberRespDTO;
+import com.api.AFTAS.security.User.User;
+import com.api.AFTAS.security.User.UserRepository;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,42 +16,41 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class MemberService implements MemberServiceInterface {
-    @Autowired
-    private MemberRepository memberRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+    private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public MemberRespDTO create(MemberReqDTO memberReqDTO) {
-        Member member = modelMapper.map(memberReqDTO, Member.class);
+        User member = modelMapper.map(memberReqDTO, User.class);
         member.setAccessionDate(LocalDate.now());
-            member = memberRepository.save(member);
+            member = userRepository.save(member);
             return modelMapper.map(member, MemberRespDTO.class);
     }
 
     @Override
     public MemberRespDTO update(MemberReqDTO memberReqDTO, Integer num) {
-        Optional<Member> existMember = memberRepository.findById(num);
-        if (existMember.isPresent()) {
-            memberReqDTO.setNum(existMember.get().getNum());
-            return modelMapper.map(memberRepository.save(modelMapper.map(memberReqDTO, Member.class)), MemberRespDTO.class);
+        Optional<User> existUser = userRepository.findById(num);
+        if (existUser.isPresent()) {
+            memberReqDTO.setId(existUser.get().getId());
+            return modelMapper.map(userRepository.save(modelMapper.map(memberReqDTO, User.class)), MemberRespDTO.class);
         }
         return null;
     }
 
     @Override
     public Integer delete(Integer num) {
-        Optional<Member> member = memberRepository.findById(num);
+        Optional<User> member = userRepository.findById(num);
         if(member.isPresent()) {
-            memberRepository.delete(member.get());
+            userRepository.delete(member.get());
             return 1;
         }else return 0;
     }
 
     @Override
     public List<MemberRespDTO> getAll() {
-        return memberRepository.findAll()
+        return userRepository.findAll()
                 .stream()
                 .map(member -> modelMapper.map(member,MemberRespDTO.class))
                 .collect(Collectors.toList());
@@ -56,7 +58,7 @@ public class MemberService implements MemberServiceInterface {
 
     @Override
     public MemberRespDTO getOne(Integer num) {
-        Optional<Member> member = memberRepository.findById(num);
+        Optional<User> member = userRepository.findById(num);
         return member.map(value -> modelMapper.map(value, MemberRespDTO.class)).orElse(null);
     }
 }

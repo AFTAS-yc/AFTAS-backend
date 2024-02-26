@@ -1,7 +1,7 @@
 package com.api.AFTAS.domains.ranking;
 
 import com.api.AFTAS.domains.competition.Competition;
-import com.api.AFTAS.domains.member.Member;
+import com.api.AFTAS.security.User.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,5 +20,5 @@ public interface RankingRepository extends JpaRepository<Ranking,RankingId> {
     List<Ranking> calculateRankingsForCompetition(@Param("competitionCode") String competitionCode);
     @Query("select NEW Ranking(r.id.member,r.id.competition,r.score as score,r.rank) from Ranking r WHERE r.id.competition.code =:competitionCode ORDER BY score DESC")
     List<Ranking> getAllByCompetition(@Param("competitionCode") String competitionCode);
-    Optional<Ranking> findById_CompetitionAndId_Member(Competition competition, Member member);
+    Optional<Ranking> findById_CompetitionAndId_Member(Competition competition, User member);
 }
